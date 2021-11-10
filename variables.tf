@@ -4,6 +4,6 @@ variable "ksoc_role_arn" {
 
   validation {
     condition     = can(regex("^arn:aws:iam::[[:digit:]]{12}:role/.+", var.ksoc_role_arn))
-    error_message = "Must be a valid AWS IAM role ARN"
+    error_message = "Must be a valid AWS IAM role ARN."
   }
 }
