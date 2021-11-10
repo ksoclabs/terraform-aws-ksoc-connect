@@ -8,8 +8,7 @@ data "aws_iam_policy_document" "ksoc_allow_discovery_assume_role_policy" {
     actions = ["sts:AssumeRole"]
 
     principals {
-      type = "AWS"
-
+      type        = "AWS"
       identifiers = [var.ksoc_role_arn]
     }
   }
