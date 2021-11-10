@@ -1,6 +1,6 @@
 variable "ksoc_role_arn" {
   type        = string
-  description = "AWS IAM Role ARN provided by KSOC for resource discovery"
+  description = "AWS IAM Role ARN provided by KSOC for connection"
 
   validation {
     condition     = can(regex("^arn:aws:iam::[[:digit:]]{12}:role/.+", var.ksoc_role_arn))

@@ -1,9 +1,4 @@
-# ==================================================================
-# This is the IAM role that the discovery processor will assume
-# in any given account to discovery the needful.
-# ==================================================================
-
-data "aws_iam_policy_document" "ksoc_allow_discovery_assume_role_policy" {
+data "aws_iam_policy_document" "ksoc_connect_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
 
@@ -14,7 +9,7 @@ data "aws_iam_policy_document" "ksoc_allow_discovery_assume_role_policy" {
   }
 }
 
-data "aws_iam_policy_document" "ksoc_allow_discovery" {
+data "aws_iam_policy_document" "ksoc_connect" {
   statement {
     actions = [
       "ecr:Describe*", #tfsec:ignore:AWS099
@@ -44,19 +39,19 @@ data "aws_iam_policy_document" "ksoc_allow_discovery" {
   }
 }
 
-resource "aws_iam_role" "ksoc_allow_discovery" {
-  name                  = "ksoc-allow-discovery"
+resource "aws_iam_role" "ksoc_connect" {
+  name                  = "ksoc-connect"
   force_detach_policies = "true"
-  assume_role_policy    = data.aws_iam_policy_document.ksoc_allow_discovery_assume_role_policy.json
+  assume_role_policy    = data.aws_iam_policy_document.ksoc_connect_assume_role_policy.json
 }
 
-resource "aws_iam_policy" "ksoc_allow_discovery" {
-  name   = "ksoc-allow-discovery-${data.aws_region.current.name}"
+resource "aws_iam_policy" "ksoc_connect" {
+  name   = "ksoc-connect-${data.aws_region.current.name}"
   path   = "/"
-  policy = data.aws_iam_policy_document.ksoc_allow_discovery.json
+  policy = data.aws_iam_policy_document.ksoc_connect.json
 }
 
-resource "aws_iam_role_policy_attachment" "ksoc_allow_discovery" {
-  role       = aws_iam_role.ksoc_allow_discovery.id
-  policy_arn = aws_iam_policy.ksoc_allow_discovery.arn
+resource "aws_iam_role_policy_attachment" "ksoc_connect" {
+  role       = aws_iam_role.ksoc_connect.id
+  policy_arn = aws_iam_policy.ksoc_connect.arn
 }
