@@ -1,6 +1,6 @@
 # terraform-aws-ksoc-connect
 
-Allows KSOC to connect to your AWS account to perform EKS/ECS/ECR discovery and pro-active monitoring of these resources.
+Allows KSOC to connect to your AWS account to perform EKS/ECS/ECR discovery and perform pro-active monitoring of these resources.
 
 ## Usage
 
