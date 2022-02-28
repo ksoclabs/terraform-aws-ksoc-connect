@@ -1,3 +1,13 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [0.3.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v0.2.0...v0.3.0) (2022-02-28)
+
+
+### Features
+
+* aligning release process with azure module. ([731fb12](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/731fb12869168851edbf749e43bfbe5c1cfa9f07))
 
 <a name="v0.2.0"></a>
 ## [v0.2.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v0.1.0...v0.2.0) (2021-11-10)
