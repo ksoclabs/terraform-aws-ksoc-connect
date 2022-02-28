@@ -6,6 +6,14 @@ Allows KSOC to connect to your AWS account to perform EKS/ECS/ECR discovery and 
 
 This module is available in the [Terraform Registry](https://registry.terraform.io/) see [here](https://registry.terraform.io/modules/ksoclabs/ksoc-connect/aws/latest).
 
+## Contributing
+
+The most important thing to be aware of when contributing is that we leverage the [Semantic Release Action](https://github.com/cycjimmy/semantic-release-action) to automate our changelog, see [here](CHANGELOG.md).
+
+This requires us to use [conventional git commits](https://www.conventionalcommits.org/en/v1.0.0/) when committing to this repository.
+
+Each PR merge into the `main` branch will execute the release process defined [here](.github/workflows/release.yml).
+
 ## Usage
 
 During sign-up, you will have been provided with an AWS IAM Role ARN - this should be passed into the module using the `ksoc_role_arn` variable:
@@ -61,8 +69,6 @@ No modules.
 |------|-------------|
 | <a name="output_role_arn"></a> [role\_arn](#output\_role\_arn) | AWS IAM Role ARN to provide to KSOC to allow connection |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-
 
 ## License
 Apache 2 Licensed. See [LICENSE](LICENSE) for full details.
