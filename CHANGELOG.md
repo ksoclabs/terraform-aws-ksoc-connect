@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### [0.3.1](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v0.3.0...v0.3.1) (2022-03-01)
+
+
+### Bug Fixes
+
+* fixing missing region data source. ([aea1c88](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/aea1c8870af62e8c1dfb7394afacc17f3dcc0fe1))
+* fixing missing region data source. ([fe427b7](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/fe427b74bdc2c888707b94534fae9eacf2877ac5))
+
 ## [0.3.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v0.2.0...v0.3.0) (2022-02-28)
 
 
