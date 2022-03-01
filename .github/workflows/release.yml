@@ -11,6 +11,7 @@ on:
       - '**/*.tf'
       - '.github/workflows/release.yml'
 
+
 jobs:
   release:
     name: Release
