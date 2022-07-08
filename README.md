@@ -65,7 +65,9 @@ Once applied, the module will then output a newly-created AWS IAM Role ARN in yo
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cloudtrail_enabled"></a> [cloudtrail\_enabled](#input\_cloudtrail\_enabled) | Enable KSOC Cloudtrail discovery | `bool` | `false` | no |
+| <a name="input_cloudtrail_resources_prefix"></a> [cloudtrail\_resources\_prefix](#input\_cloudtrail\_resources\_prefix) | All resources created by this module will begin with this name | `string` | `"ksoc-discovery"` | no |
 | <a name="input_company_id"></a> [company\_id](#input\_company\_id) | Company ID obtained from KSOC | `string` | n/a | yes |
+| <a name="input_ingest_url"></a> [ingest\_url](#input\_ingest\_url) | URL of KSOC API | `string` | n/a | yes |
 | <a name="input_ksoc_role_arn"></a> [ksoc\_role\_arn](#input\_ksoc\_role\_arn) | AWS IAM Role ARN provided by KSOC for connection | `string` | n/a | yes |
 
 ## Outputs

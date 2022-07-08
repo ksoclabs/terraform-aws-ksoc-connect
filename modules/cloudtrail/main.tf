@@ -1,15 +1,11 @@
 data "aws_caller_identity" "current" {}
 
-locals {
-  trail_name = "ksoc-discovery"
-}
-
 resource "random_id" "bucket_name" {
   byte_length = 16
 }
 
 resource "aws_cloudtrail" "ksoc_discovery" {
-  name                          = local.trail_name
+  name                          = var.resources_prefix
   s3_bucket_name                = aws_s3_bucket.ksoc_discovery.id
   include_global_service_events = true
   is_multi_region_trail         = true
@@ -23,7 +19,7 @@ resource "aws_cloudtrail" "ksoc_discovery" {
 }
 
 resource "aws_s3_bucket" "ksoc_discovery" {
-  bucket        = "${local.trail_name}-${random_id.bucket_name.hex}"
+  bucket        = "${var.resources_prefix}-${random_id.bucket_name.hex}"
   force_destroy = true
 }
 
@@ -88,7 +84,7 @@ resource "aws_kms_key" "ksoc_discovery_key" {
             "Resource": "*",
             "Condition": {
                 "StringLike": {
-                    "AWS:SourceArn": "arn:aws:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/${local.trail_name}",
+                    "AWS:SourceArn": "arn:aws:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/${var.resources_prefix}",
                     "kms:EncryptionContext:aws:cloudtrail:arn": "arn:aws:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/*"
                 }
             }
@@ -166,11 +162,11 @@ POLICY
 
 resource "aws_kms_alias" "ksoc_discovery_key_alias" {
   target_key_id = aws_kms_key.ksoc_discovery_key.id
-  name          = "alias/${local.trail_name}"
+  name          = "alias/${var.resources_prefix}"
 }
 
 resource "aws_sns_topic" "ksoc_discovery" {
-  name   = local.trail_name
+  name   = var.resources_prefix
   policy = <<POLICY
 {
   "Version": "2008-10-17",
@@ -192,7 +188,7 @@ resource "aws_sns_topic" "ksoc_discovery" {
         "SNS:ListSubscriptionsByTopic",
         "SNS:Publish"
       ],
-      "Resource": "arn:aws:sns:*:${data.aws_caller_identity.current.account_id}:${local.trail_name}",
+      "Resource": "arn:aws:sns:*:${data.aws_caller_identity.current.account_id}:${var.resources_prefix}",
       "Condition": {
         "StringEquals": {
           "AWS:SourceOwner": "${data.aws_caller_identity.current.account_id}"
@@ -206,10 +202,10 @@ resource "aws_sns_topic" "ksoc_discovery" {
         "Service": "cloudtrail.amazonaws.com"
       },
       "Action": "SNS:Publish",
-      "Resource": "arn:aws:sns:*:${data.aws_caller_identity.current.account_id}:${local.trail_name}",
+      "Resource": "arn:aws:sns:*:${data.aws_caller_identity.current.account_id}:${var.resources_prefix}",
       "Condition": {
         "StringLike": {
-          "AWS:SourceArn": "arn:aws:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/${local.trail_name}"
+          "AWS:SourceArn": "arn:aws:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/${var.resources_prefix}"
         }
       }
     }
@@ -219,7 +215,7 @@ POLICY
 }
 
 resource "aws_lambda_function" "ksoc_discovery" {
-  function_name = local.trail_name
+  function_name = var.resources_prefix
   role          = aws_iam_role.ksoc_discovery_lambda.arn
   runtime       = "go1.x"
   handler       = "main"
@@ -240,7 +236,7 @@ resource "aws_lambda_function" "ksoc_discovery" {
 }
 
 resource "aws_iam_role" "ksoc_discovery_lambda" {
-  name               = local.trail_name
+  name               = var.resources_prefix
   assume_role_policy = <<ASSUME_POLICY
 {
   "Version": "2012-10-17",
@@ -259,12 +255,12 @@ ASSUME_POLICY
 }
 
 resource "aws_cloudwatch_log_group" "ksoc_discovery" {
-  name              = "/aws/lambda/${local.trail_name}"
+  name              = "/aws/lambda/${var.resources_prefix}"
   retention_in_days = 7
 }
 
 resource "aws_iam_policy" "ksoc_discovery_lambda" {
-  name        = "${local.trail_name}-lambda-logging"
+  name        = "${var.resources_prefix}-lambda-logging"
   path        = "/"
   description = "IAM policy for logging from a lambda"
 
@@ -284,7 +280,7 @@ resource "aws_iam_policy" "ksoc_discovery_lambda" {
         "logs:PutLogEvents"
       ],
       "Resource": [
-        "arn:aws:logs:*:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${local.trail_name}:*"
+        "arn:aws:logs:*:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${var.resources_prefix}:*"
       ]
     },
     {

@@ -57,7 +57,9 @@ resource "aws_iam_role_policy_attachment" "ksoc_connect" {
 }
 
 module "cloudtrail" {
-  source     = "./modules/cloudtrail"
-  company_id = var.company_id
-  count      = var.cloudtrail_enabled ? 1 : 0
+  source           = "./modules/cloudtrail"
+  company_id       = var.company_id
+  count            = var.cloudtrail_enabled ? 1 : 0
+  ingest_url       = var.ingest_url
+  resources_prefix = var.cloudtrail_resources_prefix
 }
