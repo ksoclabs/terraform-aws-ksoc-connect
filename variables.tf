@@ -7,3 +7,14 @@ variable "ksoc_role_arn" {
     error_message = "Must be a valid AWS IAM role ARN."
   }
 }
+
+variable "company_id" {
+  type = string
+  description = "Company ID obtained from KSOC"
+}
+
+variable "cloudtrail_enabled" {
+  type = bool
+  description = "Enable KSOC Cloudtrail discovery"
+  default = false
+}
