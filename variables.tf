@@ -9,12 +9,12 @@ variable "ksoc_role_arn" {
 }
 
 variable "company_id" {
-  type = string
+  type        = string
   description = "Company ID obtained from KSOC"
 }
 
 variable "cloudtrail_enabled" {
-  type = bool
+  type        = bool
   description = "Enable KSOC Cloudtrail discovery"
-  default = false
+  default     = false
 }
