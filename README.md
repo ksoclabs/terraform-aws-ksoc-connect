@@ -45,7 +45,9 @@ Once applied, the module will then output a newly-created AWS IAM Role ARN in yo
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ./modules/cloudtrail | n/a |
 
 ## Resources
 
@@ -62,6 +64,11 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_cloudtrail_enabled"></a> [cloudtrail\_enabled](#input\_cloudtrail\_enabled) | Enable KSOC Cloudtrail discovery | `bool` | `false` | no |
+| <a name="input_cloudtrail_lambda_debug"></a> [cloudtrail\_lambda\_debug](#input\_cloudtrail\_lambda\_debug) | More verbose logging in ksoc-connect-cloudtrail Lambda | `bool` | `false` | no |
+| <a name="input_cloudtrail_lambda_timeout"></a> [cloudtrail\_lambda\_timeout](#input\_cloudtrail\_lambda\_timeout) | HTTP timeout for ksoc-connect-cloudtrail Lambda | `string` | `"30s"` | no |
+| <a name="input_company_id"></a> [company\_id](#input\_company\_id) | Company ID obtained from KSOC | `string` | n/a | yes |
+| <a name="input_ingest_url"></a> [ingest\_url](#input\_ingest\_url) | URL of KSOC API | `string` | n/a | yes |
 | <a name="input_ksoc_role_arn"></a> [ksoc\_role\_arn](#input\_ksoc\_role\_arn) | AWS IAM Role ARN provided by KSOC for connection | `string` | n/a | yes |
 
 ## Outputs

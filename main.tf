@@ -55,3 +55,12 @@ resource "aws_iam_role_policy_attachment" "ksoc_connect" {
   role       = aws_iam_role.ksoc_connect.id
   policy_arn = aws_iam_policy.ksoc_connect.arn
 }
+
+module "cloudtrail" {
+  source         = "./modules/cloudtrail"
+  company_id     = var.company_id
+  count          = var.cloudtrail_enabled ? 1 : 0
+  ingest_url     = var.ingest_url
+  lambda_debug   = var.cloudtrail_lambda_debug
+  lambda_timeout = var.cloudtrail_lambda_timeout
+}
