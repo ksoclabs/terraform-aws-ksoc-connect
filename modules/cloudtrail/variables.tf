@@ -6,13 +6,13 @@ variable "company_id" {
 variable "lambda_debug" {
   type        = bool
   default     = false
-  description = "More verbose logging in ksoc-observer Lambda"
+  description = "More verbose logging in ksoc-connect-cloudtrail Lambda"
 }
 
 variable "lambda_timeout" {
   type        = string
   default     = "30s"
-  description = "HTTP timeout for ksoc-observer Lambda"
+  description = "HTTP timeout for ksoc-connect-cloudtrail Lambda"
 }
 
 variable "ingest_url" {
