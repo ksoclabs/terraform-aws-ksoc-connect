@@ -9,11 +9,11 @@ locals {
 }
 
 resource "aws_cloudtrail" "cloudtrail" {
-  name                          = local.name
-  s3_bucket_name                = aws_s3_bucket.cloudtrail.id
   include_global_service_events = true
   is_multi_region_trail         = true
   kms_key_id                    = aws_kms_key.cloudtrail.arn
+  name                          = local.name
+  s3_bucket_name                = aws_s3_bucket.cloudtrail.id
   sns_topic_name                = aws_sns_topic.cloudtrail.name
   event_selector {
     exclude_management_event_sources = ["kms.amazonaws.com", "rdsdata.amazonaws.com"]
@@ -220,9 +220,9 @@ POLICY
 
 resource "aws_lambda_function" "cloudtrail" {
   function_name = local.name
+  handler       = "main"
   role          = aws_iam_role.cloudtrail.arn
   runtime       = "go1.x"
-  handler       = "main"
   s3_bucket     = "ksoc-cloudtrail-observer"
   s3_key        = "ksoc-cloudtrail-observer.zip"
   environment {
