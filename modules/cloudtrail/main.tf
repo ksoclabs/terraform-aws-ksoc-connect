@@ -4,27 +4,31 @@ resource "random_id" "bucket_name" {
   byte_length = 16
 }
 
-resource "aws_cloudtrail" "ksoc_discovery" {
-  name                          = var.resources_prefix
-  s3_bucket_name                = aws_s3_bucket.ksoc_discovery.id
-  include_global_service_events = true
-  is_multi_region_trail         = true
-  kms_key_id                    = aws_kms_key.ksoc_discovery_key.arn
-  event_selector {
-    include_management_events        = "true"
-    read_write_type                  = "WriteOnly"
-    exclude_management_event_sources = ["kms.amazonaws.com", "rdsdata.amazonaws.com"]
-  }
-  sns_topic_name = aws_sns_topic.ksoc_discovery.name
+locals {
+  name = "ksoc-connect-cloudtrail"
 }
 
-resource "aws_s3_bucket" "ksoc_discovery" {
-  bucket        = "${var.resources_prefix}-${random_id.bucket_name.hex}"
+resource "aws_cloudtrail" "cloudtrail" {
+  name                          = local.name
+  s3_bucket_name                = aws_s3_bucket.cloudtrail.id
+  include_global_service_events = true
+  is_multi_region_trail         = true
+  kms_key_id                    = aws_kms_key.cloudtrail.arn
+  sns_topic_name                = aws_sns_topic.cloudtrail.name
+  event_selector {
+    exclude_management_event_sources = ["kms.amazonaws.com", "rdsdata.amazonaws.com"]
+    include_management_events        = "true"
+    read_write_type                  = "WriteOnly"
+  }
+}
+
+resource "aws_s3_bucket" "cloudtrail" {
+  bucket        = "${local.name}-${random_id.bucket_name.hex}"
   force_destroy = true
 }
 
-resource "aws_s3_bucket_policy" "ksoc_discovery" {
-  bucket = aws_s3_bucket.ksoc_discovery.id
+resource "aws_s3_bucket_policy" "cloudtrail" {
+  bucket = aws_s3_bucket.cloudtrail.id
   policy = <<POLICY
 {
     "Version": "2012-10-17",
@@ -36,7 +40,7 @@ resource "aws_s3_bucket_policy" "ksoc_discovery" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:GetBucketAcl",
-            "Resource": "${aws_s3_bucket.ksoc_discovery.arn}"
+            "Resource": "${aws_s3_bucket.cloudtrail.arn}"
         },
         {
             "Sid": "AWSCloudTrailWrite",
@@ -45,7 +49,7 @@ resource "aws_s3_bucket_policy" "ksoc_discovery" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:PutObject",
-            "Resource": "${aws_s3_bucket.ksoc_discovery.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+            "Resource": "${aws_s3_bucket.cloudtrail.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
             "Condition": {
                 "StringEquals": {
                     "s3:x-amz-acl": "bucket-owner-full-control"
@@ -57,7 +61,7 @@ resource "aws_s3_bucket_policy" "ksoc_discovery" {
 POLICY
 }
 
-resource "aws_kms_key" "ksoc_discovery_key" {
+resource "aws_kms_key" "cloudtrail" {
   policy = <<POLICY
 {
     "Version": "2012-10-17",
@@ -84,7 +88,7 @@ resource "aws_kms_key" "ksoc_discovery_key" {
             "Resource": "*",
             "Condition": {
                 "StringLike": {
-                    "AWS:SourceArn": "arn:aws:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/${var.resources_prefix}",
+                    "AWS:SourceArn": "arn:aws:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/${local.name}",
                     "kms:EncryptionContext:aws:cloudtrail:arn": "arn:aws:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/*"
                 }
             }
@@ -160,13 +164,13 @@ resource "aws_kms_key" "ksoc_discovery_key" {
 POLICY
 }
 
-resource "aws_kms_alias" "ksoc_discovery_key_alias" {
-  target_key_id = aws_kms_key.ksoc_discovery_key.id
-  name          = "alias/${var.resources_prefix}"
+resource "aws_kms_alias" "cloudtrail" {
+  target_key_id = aws_kms_key.cloudtrail.id
+  name          = "alias/${local.name}"
 }
 
-resource "aws_sns_topic" "ksoc_discovery" {
-  name   = var.resources_prefix
+resource "aws_sns_topic" "cloudtrail" {
+  name   = local.name
   policy = <<POLICY
 {
   "Version": "2008-10-17",
@@ -188,7 +192,7 @@ resource "aws_sns_topic" "ksoc_discovery" {
         "SNS:ListSubscriptionsByTopic",
         "SNS:Publish"
       ],
-      "Resource": "arn:aws:sns:*:${data.aws_caller_identity.current.account_id}:${var.resources_prefix}",
+      "Resource": "arn:aws:sns:*:${data.aws_caller_identity.current.account_id}:${local.name}",
       "Condition": {
         "StringEquals": {
           "AWS:SourceOwner": "${data.aws_caller_identity.current.account_id}"
@@ -202,10 +206,10 @@ resource "aws_sns_topic" "ksoc_discovery" {
         "Service": "cloudtrail.amazonaws.com"
       },
       "Action": "SNS:Publish",
-      "Resource": "arn:aws:sns:*:${data.aws_caller_identity.current.account_id}:${var.resources_prefix}",
+      "Resource": "arn:aws:sns:*:${data.aws_caller_identity.current.account_id}:${local.name}",
       "Condition": {
         "StringLike": {
-          "AWS:SourceArn": "arn:aws:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/${var.resources_prefix}"
+          "AWS:SourceArn": "arn:aws:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/${local.name}"
         }
       }
     }
@@ -214,9 +218,9 @@ resource "aws_sns_topic" "ksoc_discovery" {
 POLICY
 }
 
-resource "aws_lambda_function" "ksoc_discovery" {
-  function_name = var.resources_prefix
-  role          = aws_iam_role.ksoc_discovery_lambda.arn
+resource "aws_lambda_function" "cloudtrail" {
+  function_name = local.name
+  role          = aws_iam_role.cloudtrail.arn
   runtime       = "go1.x"
   handler       = "main"
   s3_bucket     = "ksoc-cloudtrail-observer"
@@ -230,13 +234,13 @@ resource "aws_lambda_function" "ksoc_discovery" {
     }
   }
   depends_on = [
-    aws_iam_role_policy_attachment.ksoc_discovery,
-    aws_cloudwatch_log_group.ksoc_discovery,
+    aws_iam_role_policy_attachment.cloudtrail,
+    aws_cloudwatch_log_group.cloudtrail,
   ]
 }
 
-resource "aws_iam_role" "ksoc_discovery_lambda" {
-  name               = var.resources_prefix
+resource "aws_iam_role" "cloudtrail" {
+  name               = local.name
   assume_role_policy = <<ASSUME_POLICY
 {
   "Version": "2012-10-17",
@@ -254,13 +258,13 @@ resource "aws_iam_role" "ksoc_discovery_lambda" {
 ASSUME_POLICY
 }
 
-resource "aws_cloudwatch_log_group" "ksoc_discovery" {
-  name              = "/aws/lambda/${var.resources_prefix}"
+resource "aws_cloudwatch_log_group" "cloudtrail" {
+  name              = "/aws/lambda/${local.name}"
   retention_in_days = 7
 }
 
-resource "aws_iam_policy" "ksoc_discovery_lambda" {
-  name        = "${var.resources_prefix}-lambda-logging"
+resource "aws_iam_policy" "cloudtrail" {
+  name        = "${local.name}-lambda-logging"
   path        = "/"
   description = "IAM policy for logging from a lambda"
 
@@ -280,7 +284,7 @@ resource "aws_iam_policy" "ksoc_discovery_lambda" {
         "logs:PutLogEvents"
       ],
       "Resource": [
-        "arn:aws:logs:*:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${var.resources_prefix}:*"
+        "arn:aws:logs:*:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${local.name}:*"
       ]
     },
     {
@@ -290,7 +294,7 @@ resource "aws_iam_policy" "ksoc_discovery_lambda" {
       ],
       "Effect": "Allow",
       "Resource": [
-        "${aws_s3_bucket.ksoc_discovery.arn}"
+        "${aws_s3_bucket.cloudtrail.arn}"
       ]
     },
     {
@@ -300,7 +304,7 @@ resource "aws_iam_policy" "ksoc_discovery_lambda" {
       ],
       "Effect": "Allow",
       "Resource": [
-        "${aws_s3_bucket.ksoc_discovery.arn}/*"
+        "${aws_s3_bucket.cloudtrail.arn}/*"
       ]
     }
   ]
@@ -308,21 +312,21 @@ resource "aws_iam_policy" "ksoc_discovery_lambda" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "ksoc_discovery" {
-  role       = aws_iam_role.ksoc_discovery_lambda.name
-  policy_arn = aws_iam_policy.ksoc_discovery_lambda.arn
+resource "aws_iam_role_policy_attachment" "cloudtrail" {
+  role       = aws_iam_role.cloudtrail.name
+  policy_arn = aws_iam_policy.cloudtrail.arn
 }
 
-resource "aws_sns_topic_subscription" "ksoc_discovery" {
-  endpoint  = aws_lambda_function.ksoc_discovery.arn
+resource "aws_sns_topic_subscription" "cloudtrail" {
+  endpoint  = aws_lambda_function.cloudtrail.arn
   protocol  = "lambda"
-  topic_arn = aws_sns_topic.ksoc_discovery.arn
+  topic_arn = aws_sns_topic.cloudtrail.arn
 }
 
-resource "aws_lambda_permission" "ksoc_discovery_sns" {
+resource "aws_lambda_permission" "cloudtrail" {
   statement_id  = "AllowExecutionFromSNS"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.ksoc_discovery.function_name
+  function_name = aws_lambda_function.cloudtrail.function_name
   principal     = "sns.amazonaws.com"
-  source_arn    = aws_sns_topic.ksoc_discovery.arn
+  source_arn    = aws_sns_topic.cloudtrail.arn
 }

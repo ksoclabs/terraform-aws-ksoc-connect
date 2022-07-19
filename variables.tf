@@ -23,9 +23,3 @@ variable "ingest_url" {
   type        = string
   description = "URL of KSOC API"
 }
-
-variable "cloudtrail_resources_prefix" {
-  type        = string
-  default     = "ksoc-discovery"
-  description = "All resources created by this module will begin with this name"
-}
