@@ -18,7 +18,7 @@ Each PR merge into the `main` branch will execute the release process defined [h
 
 This module requires you to obtain a set of API credentials from KSOC (access_key/secret) and also needs your Ksoc account id.
 
-When running the module you need to be authenticated against your target AWS account. See examples directory for more information.
+When running the module you need to be authenticated against your target AWS account. See [examples](examples) directory for more information.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
