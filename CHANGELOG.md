@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.0.1](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.0.0...v1.0.1) (2023-08-07)
+
+
+### Bug Fixes
+
+* removing un-used cloudtrail module. ([720f0e9](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/720f0e9d8d8ca26cf8be75883d17a11e1a368e7e))
+
 ## [1.0.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v0.3.1...v1.0.0) (2023-08-07)
 
 
