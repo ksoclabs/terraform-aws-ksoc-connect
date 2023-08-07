@@ -1,66 +1,29 @@
-data "aws_iam_policy_document" "ksoc_connect_assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
 
-    principals {
-      type        = "AWS"
-      identifiers = [var.ksoc_role_arn]
+terraform {
+  required_providers {
+    ksoc = {
+      source = "ksoclabs/ksoc"
+      version = "0.0.1"
     }
   }
 }
 
-data "aws_iam_policy_document" "ksoc_connect" {
-  statement {
-    actions = [
-      "ecr:Describe*", #tfsec:ignore:AWS099
-      "ecr:Get*",      #tfsec:ignore:AWS099
-      "ecr:List*",     #tfsec:ignore:AWS099
-    ]
-    effect    = "Allow"
-    resources = ["*"] #tfsec:ignore:AWS099
-  }
-
-  statement {
-    actions = [
-      "ecs:Describe*", #tfsec:ignore:AWS099
-      "ecs:List*",     #tfsec:ignore:AWS099
-    ]
-    effect    = "Allow"
-    resources = ["*"] #tfsec:ignore:AWS099
-  }
-
-  statement {
-    actions = [
-      "eks:Describe*", #tfsec:ignore:AWS099
-      "eks:List*",     #tfsec:ignore:AWS099
-    ]
-    effect    = "Allow"
-    resources = ["*"] #tfsec:ignore:AWS099
-  }
+provider "aws" {
+  region = "us-west-2"
 }
 
-resource "aws_iam_role" "ksoc_connect" {
-  name                  = "ksoc-connect"
-  force_detach_policies = "true"
-  assume_role_policy    = data.aws_iam_policy_document.ksoc_connect_assume_role_policy.json
+provider "ksoc" {}
+
+locals {
+  ksoc_assumed_role_arn = "arn:aws:iam::652031173150:role/ksoc-connector"
 }
 
-resource "aws_iam_policy" "ksoc_connect" {
-  name   = "ksoc-connect-${data.aws_region.current.name}"
-  path   = "/"
-  policy = data.aws_iam_policy_document.ksoc_connect.json
-}
 
-resource "aws_iam_role_policy_attachment" "ksoc_connect" {
-  role       = aws_iam_role.ksoc_connect.id
-  policy_arn = aws_iam_policy.ksoc_connect.arn
-}
-
-module "cloudtrail" {
-  source         = "./modules/cloudtrail"
-  company_id     = var.company_id
-  count          = var.cloudtrail_enabled ? 1 : 0
-  ingest_url     = var.ingest_url
-  lambda_debug   = var.cloudtrail_lambda_debug
-  lambda_timeout = var.cloudtrail_lambda_timeout
+resource "ksoc_aws_register" "this" {
+  ksoc_api_url  = "https://api.sbx.ksoc.com"
+  ksoc_assumed_role_arn = local.ksoc_assumed_role_arn
+  access_key_id = var.access_key_id
+  secret_key = var.secret_key
+  ksoc_account_id = var.ksoc_account_id
+  aws_account_id = data.aws_caller_identity.current.account_id
 }
