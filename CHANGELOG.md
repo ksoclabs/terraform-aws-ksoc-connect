@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v0.3.1...v1.0.0) (2023-08-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* Cut over to new Ksoc terraform provider
+
+### Features
+
+* Cut over to new Ksoc terraform provider ([4cf6357](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/4cf6357c23ae5e000c1d912cc2b2737eff7ccc72))
+
 ### [0.3.1](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v0.3.0...v0.3.1) (2022-03-01)
 
 
