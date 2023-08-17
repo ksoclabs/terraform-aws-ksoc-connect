@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    ksoc = {
+      source  = "ksoclabs/ksoc"
+      version = "0.0.1"
+    }
+  }
+}
+
 provider "aws" {
   region = "us-west-2"
 }
