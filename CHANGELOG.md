@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.0.2](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.0.1...v1.0.2) (2023-08-17)
+
+
+### Bug Fixes
+
+* Moves hardcoded strings within the module into variables ([d92d2c6](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/d92d2c6f16da8db8031d34e9d94e85fe6e7e0103))
+* Updates example to use the correct required_providers with KSOC ([e5b20fc](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/e5b20fcaaea64a9888c8206f2ef21ae012b02fa5))
+
 ### [1.0.1](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.0.0...v1.0.1) (2023-08-07)
 
 
