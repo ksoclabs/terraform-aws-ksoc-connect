@@ -1,6 +1,4 @@
-locals {
-  ksoc_assumed_role_arn = "arn:aws:iam::955322216602:role/ksoc-connector"
-}
+
 
 # Policy
 data "aws_iam_policy_document" "assume_role" {
@@ -10,7 +8,7 @@ data "aws_iam_policy_document" "assume_role" {
 
     principals {
       type        = "AWS"
-      identifiers = [local.ksoc_assumed_role_arn]
+      identifiers = [var.ksoc_assumed_role_arn]
     }
   }
 }
@@ -38,8 +36,8 @@ resource "aws_iam_instance_profile" "this" {
 }
 
 resource "ksoc_aws_register" "this" {
-  ksoc_api_url          = "https://api.ksoc.com"
-  ksoc_assumed_role_arn = local.ksoc_assumed_role_arn
+  ksoc_api_url          = var.ksoc_api_url
+  ksoc_assumed_role_arn = var.ksoc_assumed_role_arn
   access_key_id         = var.ksoc_access_key_id
   secret_key            = var.ksoc_secret_key
   ksoc_account_id       = var.ksoc_account_id

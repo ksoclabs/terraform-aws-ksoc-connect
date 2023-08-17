@@ -57,6 +57,8 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_ksoc_access_key_id"></a> [ksoc\_access\_key\_id](#input\_ksoc\_access\_key\_id) | Ksoc API key | `string` | n/a | yes |
 | <a name="input_ksoc_account_id"></a> [ksoc\_account\_id](#input\_ksoc\_account\_id) | Ksoc Account Identifier | `string` | n/a | yes |
+| <a name="input_ksoc_api_url"></a> [ksoc\_api\_url](#input\_ksoc\_api\_url) | KSOC API to use when registering an account | `string` | `"https://api.ksoc.com"` | no |
+| <a name="input_ksoc_assumed_role_arn"></a> [ksoc\_assumed\_role\_arn](#input\_ksoc\_assumed\_role\_arn) | KSOC Role that will be allowed to assume | `string` | `"arn:aws:iam::955322216602:role/ksoc-connector"` | no |
 | <a name="input_ksoc_secret_key"></a> [ksoc\_secret\_key](#input\_ksoc\_secret\_key) | Ksoc API secret | `string` | n/a | yes |
 
 ## Outputs
