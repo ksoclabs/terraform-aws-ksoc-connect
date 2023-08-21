@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.0.3](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.0.2...v1.0.3) (2023-08-21)
+
+
+### Bug Fixes
+
+* Updates module to use new format of provider ([856428a](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/856428a6242130d0186e9c3646e8e005662c864d))
+
 ### [1.0.2](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.0.1...v1.0.2) (2023-08-17)
 
 
