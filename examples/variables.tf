@@ -1,17 +1,14 @@
-variable "ksoc_account_id" {
+variable "ksoc_access_key_id" {
   type        = string
-  default     = "<REDACTED>"
-  description = "Ksoc Account Identifier"
-}
-
-variable "access_key_id" {
-  type        = string
-  default     = "<REDACTED>"
   description = "Ksoc API key"
 }
 
-variable "secret_key" {
+variable "ksoc_account_id" {
   type        = string
-  default     = "<REDACTED>"
+  description = "Ksoc Account Identifier"
+}
+
+variable "ksoc_secret_key" {
+  type        = string
   description = "Ksoc API secret"
 }
