@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.0.4](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.0.3...v1.0.4) (2023-08-23)
+
+
+### Bug Fixes
+
+* Fix line endings ([2d00057](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/2d00057d4a987391f82c86de95c5912d1eafbe37))
+* Remove ksoc_account_id from provider ([9307197](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/93071978a3c1994982a9b2de1def508d08bb66fd))
+
 ### [1.0.3](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.0.2...v1.0.3) (2023-08-21)
 
 
