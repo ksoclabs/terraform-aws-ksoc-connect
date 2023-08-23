@@ -12,8 +12,8 @@ provider "aws" {
 }
 
 provider "ksoc" {
-  access_key_id   = var.ksoc_access_key_id
-  secret_key      = var.ksoc_secret_key
+  access_key_id = var.ksoc_access_key_id
+  secret_key    = var.ksoc_secret_key
 }
 
 module "ksoc-connect" {
