@@ -2,7 +2,7 @@ terraform {
   required_providers {
     ksoc = {
       source  = "ksoclabs/ksoc"
-      version = "0.0.3"
+      version = "0.0.4"
     }
   }
 }
@@ -13,7 +13,6 @@ provider "aws" {
 
 provider "ksoc" {
   access_key_id   = var.ksoc_access_key_id
-  ksoc_account_id = var.ksoc_account_id
   secret_key      = var.ksoc_secret_key
 }
 

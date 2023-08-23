@@ -3,11 +3,6 @@ variable "ksoc_access_key_id" {
   description = "Ksoc API key"
 }
 
-variable "ksoc_account_id" {
-  type        = string
-  description = "Ksoc Account Identifier"
-}
-
 variable "ksoc_secret_key" {
   type        = string
   description = "Ksoc API secret"
