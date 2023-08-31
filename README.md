@@ -1,10 +1,10 @@
 # terraform-aws-ksoc-connect
 
-Allows KSOC to connect to your AWS account to perform pro-active monitoring of your AWS resources.
+Allows KSOC to connect to your AWS account to allow KSOC to be able to scan and anyalize your AWS resources.
 
 ## Terraform Registry
 
-This module is available in the [Terraform Registry](https://registry.terraform.io/) see [here](https://registry.terraform.io/modules/ksoclabs/ksoc-connect/aws/latest).
+This module is available in the [Terraform Registry](https://registry.terraform.io/) see [here](https://registry.terraform.io/modules/ksoclabs/ksoc-connect/aws/latest). It uses the official KSOC Provider to authenticate and Add an AWS account to your KSOC account. The KSOC Provider can be found here in the [Terraform Provider Registry](https://registry.terraform.io/providers/ksoclabs/ksoc/latest).
 
 ## Contributing
 
@@ -16,9 +16,11 @@ Each PR merge into the `main` branch will execute the release process defined [h
 
 ## Usage
 
-This module requires you to obtain a set of API credentials from KSOC (access_key/secret) and also needs your Ksoc account id.
+This module requires you to obtain a set of cloud api credentials from KSOC (access_key/secret). It will use those credentials to connect your AWS account to your KSOC account.
 
-When running the module you need to be authenticated against your target AWS account. See [examples](examples) directory for more information.
+The module needs an AWS provider to be configured. It will create an IAM Role called `ksoc-connect`. The IAM Role has the AWS default `ReadOnlyAccess` policy attached. The Role allows `ksoc-connector` in KSOC's AWS account to assume the role.
+
+When the `ksoc-connect` Role is created, it will be added to your KSOC account through the `ksoc_aws_register` resource.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
