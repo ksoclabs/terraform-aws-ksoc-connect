@@ -1,6 +1,6 @@
 # terraform-aws-ksoc-connect
 
-The module allows you to connect to your AWS account to KSOC to them to be able to scan and analyze your AWS resources.
+The module allows you to connect your AWS account to KSOC to allow them to be able to scan and analyze your AWS resources.
 
 ## Terraform Registry
 
