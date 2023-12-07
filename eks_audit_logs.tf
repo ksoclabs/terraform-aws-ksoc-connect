@@ -1,3 +1,11 @@
+locals {
+  bucket_name = "ksoc-eks-${random_id.uniq.hex}"
+}
+
+resource "random_id" "uniq" {
+  byte_length = 4
+}
+
 data "aws_cloudwatch_log_groups" "eks" {
   count                 = var.enable_eks_audit_logs_pipeline ? 1 : 0
   log_group_name_prefix = "/aws/eks/"
@@ -19,8 +27,11 @@ resource "aws_kinesis_firehose_delivery_stream" "firehose" {
 
 resource "aws_s3_bucket" "audit_logs" {
   count         = var.enable_eks_audit_logs_pipeline ? 1 : 0
-  bucket        = "ksoc-connect-eks-audit-logs"
+  bucket        = local.bucket_name
   force_destroy = true
+  tags = {
+    ksoc-data-type = "eks-audit-logs"
+  }
 }
 
 data "aws_iam_policy_document" "firehose_assume" {
