@@ -22,6 +22,8 @@ The module needs an AWS provider to be configured. It will create an IAM Role ca
 
 When the `ksoc-connect` Role is created, it will be added to your KSOC account through the `ksoc_aws_register` resource.
 
+There is an optional flag `enable_eks_audit_logs_pipeline` which will create a CloudWatch Logs -> FireHose -> S3 pipeline for all EKS clusters in the account. This is required for KSOC to be able to analyse EKS audit logs. Make sure to enable EKS audit logs for EKS clusters you wish to be analysed.
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
