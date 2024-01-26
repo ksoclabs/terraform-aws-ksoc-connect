@@ -37,9 +37,9 @@ There is an optional flag `enable_eks_audit_logs_pipeline` which will create a C
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.29.0 |
-| <a name="provider_ksoc"></a> [ksoc](#provider\_ksoc) | 0.1.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.6.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.62.0 |
+| <a name="provider_ksoc"></a> [ksoc](#provider\_ksoc) | >= 0.0.1 |
+| <a name="provider_random"></a> [random](#provider\_random) | n/a |
 
 ## Modules
 
