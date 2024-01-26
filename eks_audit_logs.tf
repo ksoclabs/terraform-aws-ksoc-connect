@@ -115,3 +115,37 @@ resource "aws_cloudwatch_log_subscription_filter" "subscription_filter" {
   destination_arn = aws_kinesis_firehose_delivery_stream.firehose[0].arn
   distribution    = "Random"
 }
+
+# Cross-account connectivity.
+data "aws_iam_policy_document" "ksoc_s3_access" {
+  count = var.enable_eks_audit_logs_pipeline ? 1 : 0
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:GetObject", "s3:ListBucket"
+    ]
+    resources = [aws_s3_bucket.audit_logs[0].arn, "${aws_s3_bucket.audit_logs[0].arn}/*"]
+  }
+}
+
+data "aws_iam_policy_document" "ksoc_assume" {
+  count = var.enable_eks_audit_logs_pipeline ? 1 : 0
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [var.ksoc_eks_audit_logs_assumed_role_arn]
+    }
+  }
+}
+
+resource "aws_iam_role" "ksoc_s3_access" {
+  count                = var.enable_eks_audit_logs_pipeline ? 1 : 0
+  name                 = "ksoc-audit-logs"
+  path                 = "/"
+  max_session_duration = 3600
+
+  assume_role_policy = data.aws_iam_policy_document.ksoc_assume[0].json
+}
