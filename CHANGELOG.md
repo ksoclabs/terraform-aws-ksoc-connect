@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.0.5...v1.1.0) (2024-01-30)
+
+
+### Features
+
+* Use specific IAM actions instead of full ReadOnly access ([3cbeb29](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/3cbeb29355cf5e8b580fff247b14e8cfd3221fa1))
+
 ### [1.0.4](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.0.3...v1.0.4) (2023-08-23)
 
 
