@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.1.1](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.1.0...v1.1.1) (2024-01-30)
+
+
+### Bug Fixes
+
+* Updates missing IAM action and removes one that does not exist ([69e8e3d](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/69e8e3d0e7e7c2947e20b474a5481f51cc6c6c0c))
+
 ## [1.1.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.0.5...v1.1.0) (2024-01-30)
 
 
