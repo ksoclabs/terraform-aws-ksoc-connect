@@ -128,6 +128,11 @@ data "aws_iam_policy_document" "ksoc_s3_access" {
   }
 }
 
+resource "aws_iam_policy" "ksoc_s3_access" {
+  count  = var.enable_eks_audit_logs_pipeline ? 1 : 0
+  policy = data.aws_iam_policy_document.ksoc_s3_access[0].json
+}
+
 data "aws_iam_policy_document" "ksoc_assume" {
   count = var.enable_eks_audit_logs_pipeline ? 1 : 0
   statement {
@@ -148,4 +153,10 @@ resource "aws_iam_role" "ksoc_s3_access" {
   max_session_duration = 3600
 
   assume_role_policy = data.aws_iam_policy_document.ksoc_assume[0].json
+}
+
+resource "aws_iam_role_policy_attachment" "ksoc_s3_access" {
+  count      = var.enable_eks_audit_logs_pipeline ? 1 : 0
+  role       = aws_iam_role.ksoc_s3_access[0].name
+  policy_arn = aws_iam_policy.ksoc_s3_access[0].arn
 }
