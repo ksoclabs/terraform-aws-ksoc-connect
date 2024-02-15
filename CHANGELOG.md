@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.1.1...v1.2.0) (2024-02-15)
+
+
+### Features
+
+* Add EKS audit logs pipeline resources ([a978210](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/a9782108ccce5cc187aaf7abbaccc9cb1511d48c))
+
 ### [1.1.1](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.1.0...v1.1.1) (2024-01-30)
 
 
