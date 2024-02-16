@@ -30,15 +30,15 @@ There is an optional flag `enable_eks_audit_logs_pipeline` which will create a C
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.8 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.62.0 |
-| <a name="requirement_ksoc"></a> [ksoc](#requirement\_ksoc) | >= 0.0.1 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.0.0 |
+| <a name="requirement_ksoc"></a> [ksoc](#requirement\_ksoc) | >= 0.1.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.62.0 |
-| <a name="provider_ksoc"></a> [ksoc](#provider\_ksoc) | >= 0.0.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.0.0 |
+| <a name="provider_ksoc"></a> [ksoc](#provider\_ksoc) | >= 0.1.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | n/a |
 
 ## Modules
