@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.2.1](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.2.0...v1.2.1) (2024-02-16)
+
+
+### Bug Fixes
+
+* More recent AWS provider is needed for EKS Audit Logs ([5d547d9](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/5d547d93f5cdbff4453c6b285be2be57d89b665c))
+
 ## [1.2.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.1.1...v1.2.0) (2024-02-15)
 
 
