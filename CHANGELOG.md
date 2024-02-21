@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.2.2](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.2.1...v1.2.2) (2024-02-21)
+
+
+### Bug Fixes
+
+* Update README ([#26](https://github.com/ksoclabs/terraform-aws-ksoc-connect/issues/26)) ([87c9bf7](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/87c9bf7fddaffd330fd0218084ef5c98ec4483f1))
+
 ### [1.2.1](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.2.0...v1.2.1) (2024-02-16)
 
 
