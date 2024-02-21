@@ -18,7 +18,7 @@ Each PR merge into the `main` branch will execute the release process defined [h
 
 This module requires you to obtain a set of cloud API credentials from KSOC (access_key/secret). It will use those credentials to connect your AWS account to your KSOC account.
 
-The module needs an AWS provider to be configured. It will create an IAM Role called `ksoc-connect`. The IAM Role has the AWS default `ReadOnlyAccess` policy attached. The Role allows `ksoc-connector` in KSOC's AWS account to assume the role.
+The module needs an AWS provider to be configured. It will create an IAM Role in your account called `ksoc-connect`. The IAM Role has fine-grained policies attached (prefixed with `ksoc_connect_policy`), which will allow the `ksoc-connector` role in KSOC's AWS account to assume the permissions necessary to interact with AWS resources in your account.
 
 When the `ksoc-connect` Role is created, it will be added to your KSOC account through the `ksoc_aws_register` resource.
 
@@ -78,7 +78,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_enable_eks_audit_logs_pipeline"></a> [enable\_eks\_audit\_logs\_pipeline](#input\_enable\_eks\_audit\_logs\_pipeline) | Enable EKS Audit Logs Pipeline (CloudWatch Logs -> FireHose -> S3) | `bool` | `false` | no |
-| <a name="input_ksoc_assumed_role_arn"></a> [ksoc\_assumed\_role\_arn](#input\_ksoc\_assumed\_role\_arn) | KSOC Role that will be allowed to assume | `string` | `"arn:aws:iam::955322216602:role/ksoc-connector"` | no |
+| <a name="input_ksoc_assumed_role_arn"></a> [ksoc\_assumed\_role\_arn](#input\_ksoc\_assumed\_role\_arn) | KSOC Role that will assume the ksoc-connect IAM role you create to interact with resources in your account | `string` | `"arn:aws:iam::955322216602:role/ksoc-connector"` | no |
 | <a name="input_ksoc_eks_audit_logs_assumed_role_arn"></a> [ksoc\_eks\_audit\_logs\_assumed\_role\_arn](#input\_ksoc\_eks\_audit\_logs\_assumed\_role\_arn) | KSOC Role dedicated for EKS audit logs that will be allowed to assume | `string` | `"arn:aws:iam::955322216602:role/ksoc-data-pipeline"` | no |
 
 ## Outputs

@@ -1,6 +1,6 @@
 variable "ksoc_assumed_role_arn" {
   type        = string
-  description = "KSOC Role that will be allowed to assume"
+  description = "KSOC Role that will assume the ksoc-connect IAM role you create to interact with resources in your account"
   default     = "arn:aws:iam::955322216602:role/ksoc-connector"
 }
 
