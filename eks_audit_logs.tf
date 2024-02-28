@@ -38,7 +38,7 @@ resource "aws_s3_bucket_versioning" "audit_logs" {
   count  = var.enable_eks_audit_logs_pipeline ? 1 : 0
   bucket = aws_s3_bucket.audit_logs[0].id
   versioning_configuration {
-    status = "Enabled"
+    status = var.eks_audit_logs_bucket_versioning_enabled ? "Enabled" : "Disabled"
   }
 }
 
