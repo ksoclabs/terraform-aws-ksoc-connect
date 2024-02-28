@@ -34,6 +34,14 @@ resource "aws_s3_bucket" "audit_logs" {
   }
 }
 
+resource "aws_s3_bucket_versioning" "audit_logs" {
+  count  = var.enable_eks_audit_logs_pipeline ? 1 : 0
+  bucket = aws_s3_bucket.audit_logs[0].id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 data "aws_iam_policy_document" "firehose_assume" {
   count = var.enable_eks_audit_logs_pipeline ? 1 : 0
   statement {
