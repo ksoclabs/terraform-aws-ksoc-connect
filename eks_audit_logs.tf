@@ -1,5 +1,6 @@
 locals {
   bucket_name = "ksoc-eks-${random_id.uniq.hex}"
+  regions     = [for region in var.eks_audit_logs_regions : "logs.${region}.amazonaws.com"]
 }
 
 resource "random_id" "uniq" {
@@ -85,7 +86,7 @@ data "aws_iam_policy_document" "cloudwatch_assume" {
 
     principals {
       type        = "Service"
-      identifiers = ["logs.amazonaws.com"]
+      identifiers = local.regions
     }
 
     actions = ["sts:AssumeRole"]
@@ -112,14 +113,14 @@ resource "aws_iam_role" "cloudwatch" {
 }
 
 resource "aws_cloudwatch_log_subscription_filter" "subscription_filter" {
-  for_each = var.enable_eks_audit_logs_pipeline ? {
+  for_each = var.enable_eks_audit_logs_pipeline && !var.eks_audit_logs_multi_region ? {
     for name in data.aws_cloudwatch_log_groups.eks[0].log_group_names : name => name
   } : {}
 
   name            = "ksoc-audit-logs"
   role_arn        = aws_iam_role.cloudwatch[0].arn
   log_group_name  = each.key
-  filter_pattern  = "{ $.stage = \"ResponseComplete\" && $.requestURI != \"/version\" && $.requestURI != \"/version?*\" && $.requestURI != \"/metrics\" && $.requestURI != \"/metrics?*\" && $.requestURI != \"/logs\" && $.requestURI != \"/logs?*\" && $.requestURI != \"/swagger*\" && $.requestURI != \"/livez*\" && $.requestURI != \"/readyz*\" && $.requestURI != \"/healthz*\" }"
+  filter_pattern  = var.eks_audit_logs_filter_pattern
   destination_arn = aws_kinesis_firehose_delivery_stream.firehose[0].arn
   distribution    = "Random"
 }
