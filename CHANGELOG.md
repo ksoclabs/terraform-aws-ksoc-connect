@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.4.1](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.4.0...v1.4.1) (2024-04-12)
+
+
+### Bug Fixes
+
+* Create releases on documentation changes ([8fa5aa9](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/8fa5aa951237b4f72ea6f46524a5331a48232c67))
+* Update link in README to multi-region examples ([cf2546f](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/cf2546f05e1b8a154b40ceb8983ba719f78c48aa))
+
 ## [1.4.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.3.0...v1.4.0) (2024-04-12)
 
 
