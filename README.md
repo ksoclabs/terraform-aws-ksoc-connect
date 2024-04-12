@@ -26,7 +26,7 @@ When the `ksoc-connect` Role is created, it will be added to your KSOC account t
 
 There is an optional flag `enable_eks_audit_logs_pipeline` which will create a CloudWatch Logs -> FireHose -> S3 pipeline for all EKS clusters in the account. This is required for KSOC to be able to analyse EKS audit logs. Make sure to enable EKS audit logs for EKS clusters you wish to be analysed. By default, the pipeline creates policy for CloudWatch in all four US regions. If you have EKS clusters in other regions, you can override the `eks_audit_logs_regions` variable.
 
-Also, only clusters in the same region as your AWS provider will be included in the pipeline. If you have EKS clusters in multiple regions, you need to enable `eks_audit_logs_multi_region` flag and create subscription filters in each region outside of this module (see example in the [eks-audit-logs-multi-region](https://github.com/ksoclabs/terraform-aws-ksoc-connect/tree/main/examples/eks-audit-logs-multi-region) directory).
+Also, only clusters in the same region as your AWS provider will be included in the pipeline. If you have EKS clusters in multiple regions, you need to enable `eks_audit_logs_multi_region` flag and create subscription filters in each region outside of this module (see example in the [examples/audit_logs_multi_region](https://github.com/ksoclabs/terraform-aws-ksoc-connect/tree/main/examples/audit_logs_multi_region) directory).
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
