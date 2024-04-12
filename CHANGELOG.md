@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.3.0...v1.4.0) (2024-04-12)
+
+
+### Features
+
+* Add support for multi-region EKS audit logs pipeline ([9da7429](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/9da7429599174655b650e372949dc7e8b7828ab2))
+
 ## [1.3.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.2.2...v1.3.0) (2024-02-28)
 
 
