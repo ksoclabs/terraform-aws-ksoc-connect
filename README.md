@@ -22,7 +22,11 @@ The module needs an AWS provider to be configured. It will create an IAM Role in
 
 When the `ksoc-connect` Role is created, it will be added to your KSOC account through the `ksoc_aws_register` resource.
 
-There is an optional flag `enable_eks_audit_logs_pipeline` which will create a CloudWatch Logs -> FireHose -> S3 pipeline for all EKS clusters in the account. This is required for KSOC to be able to analyse EKS audit logs. Make sure to enable EKS audit logs for EKS clusters you wish to be analysed.
+### EKS Audit Logs
+
+There is an optional flag `enable_eks_audit_logs_pipeline` which will create a CloudWatch Logs -> FireHose -> S3 pipeline for all EKS clusters in the account. This is required for KSOC to be able to analyse EKS audit logs. Make sure to enable EKS audit logs for EKS clusters you wish to be analysed. By default, the pipeline creates policy for CloudWatch in all four US regions. If you have EKS clusters in other regions, you can override the `eks_audit_logs_regions` variable.
+
+Also, only clusters in the same region as your AWS provider will be included in the pipeline. If you have EKS clusters in multiple regions, you need to enable `eks_audit_logs_multi_region` flag and create subscription filters in each region outside of this module (see example in the [eks-audit-logs-multi-region](https://github.com/ksoclabs/terraform-aws-ksoc-connect/tree/main/examples/eks-audit-logs-multi-region) directory).
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -79,6 +83,9 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_eks_audit_logs_bucket_versioning_enabled"></a> [eks\_audit\_logs\_bucket\_versioning\_enabled](#input\_eks\_audit\_logs\_bucket\_versioning\_enabled) | Enable versioning for the S3 bucket that will store EKS audit logs | `bool` | `true` | no |
+| <a name="input_eks_audit_logs_filter_pattern"></a> [eks\_audit\_logs\_filter\_pattern](#input\_eks\_audit\_logs\_filter\_pattern) | The Cloudwatch Log Subscription Filter pattern | `string` | `"{ $.stage = \"ResponseComplete\" && $.requestURI != \"/version\" && $.requestURI != \"/version?*\" && $.requestURI != \"/metrics\" && $.requestURI != \"/metrics?*\" && $.requestURI != \"/logs\" && $.requestURI != \"/logs?*\" && $.requestURI != \"/swagger*\" && $.requestURI != \"/livez*\" && $.requestURI != \"/readyz*\" && $.requestURI != \"/healthz*\" }"` | no |
+| <a name="input_eks_audit_logs_multi_region"></a> [eks\_audit\_logs\_multi\_region](#input\_eks\_audit\_logs\_multi\_region) | Enable multi-region support for the EKS audit logs. This requires creating subscription filters in each region outside of this module. See documentation for more information. | `bool` | `false` | no |
+| <a name="input_eks_audit_logs_regions"></a> [eks\_audit\_logs\_regions](#input\_eks\_audit\_logs\_regions) | Regions from which Cloudwatch will be allowed to send logs to the Firehose | `list(string)` | <pre>[<br>  "us-east-1",<br>  "us-east-2",<br>  "us-west-1",<br>  "us-west-2"<br>]</pre> | no |
 | <a name="input_enable_eks_audit_logs_pipeline"></a> [enable\_eks\_audit\_logs\_pipeline](#input\_enable\_eks\_audit\_logs\_pipeline) | Enable EKS Audit Logs Pipeline (CloudWatch Logs -> FireHose -> S3) | `bool` | `false` | no |
 | <a name="input_ksoc_assumed_role_arn"></a> [ksoc\_assumed\_role\_arn](#input\_ksoc\_assumed\_role\_arn) | KSOC Role that will assume the ksoc-connect IAM role you create to interact with resources in your account | `string` | `"arn:aws:iam::955322216602:role/ksoc-connector"` | no |
 | <a name="input_ksoc_eks_audit_logs_assumed_role_arn"></a> [ksoc\_eks\_audit\_logs\_assumed\_role\_arn](#input\_ksoc\_eks\_audit\_logs\_assumed\_role\_arn) | KSOC Role dedicated for EKS audit logs that will be allowed to assume | `string` | `"arn:aws:iam::955322216602:role/ksoc-data-pipeline"` | no |
@@ -87,6 +94,9 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_eks_audit_logs_cloudwatch_iam_role_arn"></a> [eks\_audit\_logs\_cloudwatch\_iam\_role\_arn](#output\_eks\_audit\_logs\_cloudwatch\_iam\_role\_arn) | AWS IAM Role ARN for Cloudwatch to Firehose |
+| <a name="output_eks_audit_logs_filter_pattern"></a> [eks\_audit\_logs\_filter\_pattern](#output\_eks\_audit\_logs\_filter\_pattern) | The Cloudwatch Log Subscription Filter pattern |
+| <a name="output_eks_audit_logs_firehose_arn"></a> [eks\_audit\_logs\_firehose\_arn](#output\_eks\_audit\_logs\_firehose\_arn) | The Firehose delivery stream ARN |
 | <a name="output_role_arn"></a> [role\_arn](#output\_role\_arn) | AWS IAM Role ARN which Ksoc uses to connect |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

@@ -2,7 +2,7 @@ terraform {
   required_providers {
     ksoc = {
       source  = "ksoclabs/ksoc"
-      version = "0.0.4"
+      version = "0.1.0"
     }
   }
 }
@@ -20,4 +20,6 @@ module "ksoc-connect" {
   # https://registry.terraform.io/modules/ksoclabs/ksoc-connect/aws/latest
   source  = "ksoclabs/ksoc-connect/aws"
   version = "<version>"
+
+  enable_eks_audit_logs_pipeline = true
 }
