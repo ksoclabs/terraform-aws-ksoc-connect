@@ -1,8 +1,11 @@
 # Policy
 data "aws_iam_policy_document" "assume_role" {
   statement {
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole",
+      "sts:TagSession"
+    ]
 
     principals {
       type        = "AWS"
