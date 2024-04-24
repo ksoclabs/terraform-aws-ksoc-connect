@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.0](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.4.1...v1.5.0) (2024-04-24)
+
+
+### Features
+
+* Adds sts:TagSession to allowed actions of ksoc-connect policy document ([b0ff6b7](https://github.com/ksoclabs/terraform-aws-ksoc-connect/commit/b0ff6b7f204e88a96587c95658af3f3f02a99f5a))
+
 ### [1.4.1](https://github.com/ksoclabs/terraform-aws-ksoc-connect/compare/v1.4.0...v1.4.1) (2024-04-12)
 
 
